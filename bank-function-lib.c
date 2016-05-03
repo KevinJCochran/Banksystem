@@ -65,6 +65,11 @@ int open_account(char * name, account * bankAccounts[])
 	int i = 0;
 	// Lock bank
 	pthread_mutex_lock(&bank);
+	if( bankAccounts[19] != NULL)
+	{
+		pthread_mutex_unlock(&bank);
+		return -2;
+	}
 	// Search bank for account
 	while(bankAccounts[i] != NULL && i<20)
 	{
@@ -192,7 +197,7 @@ int start_session(int sockfd, char * acctName, account * bankAccounts[])
 	bankAccounts[i]->flag = 0;
 	pthread_mutex_unlock(&acc[i]);
 
-	return 0;
+	return 1;
 }
 
 int credit(account * acct, float amount)

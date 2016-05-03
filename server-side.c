@@ -98,6 +98,7 @@ void* start_comm(void* ThreadArgs)
 	// setup command and arg
 	char command[20];
 	char arg[20];
+	int retVal = 0;
 
 	// Tell client that server is ready for command
 	write_to_client(socketfd,"Hello! Welcome to Banky Bank!");
@@ -130,13 +131,21 @@ void* start_comm(void* ThreadArgs)
                 write_to_client(socketfd,"Invalid argument, please try again");
             }
 			// Check that operation was successful
-            else if( open_account(arg,BankAccounts) > 0 )
+            else
 			{
-				write_to_client(socketfd,"successfully opened account");
-			}
-			else
-			{
-				write_to_client(socketfd,"Account already exists, please try again");
+				retVal = open_account(arg,BankAccounts);
+				if( retVal == -1 )
+				{
+					write_to_client(socketfd,"Account already exsits, please try again");
+				}
+				else if( retVal == -2 )
+				{
+					write_to_client(socketfd,"All accounts open, not accepting new clients");
+				}
+				else
+				{
+					write_to_client(socketfd,"successfully opened account");
+				}
 			}
 		}
 		else if( strcmp(command,"start") == 0 )
