@@ -116,6 +116,16 @@ int main(int argc, char *argv[])
 	{
         error("ERROR creating socket");
 	}
+    int a = 1;
+    struct linger so_linger;
+    so_linger.l_onoff = a;
+    so_linger.l_linger = 30;
+	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &a, sizeof(a)) < 0)
+    	error("setsockopt(SO_REUSEADDR) failed");
+	if (setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &so_linger, sizeof(so_linger)) < 0)
+    	error("setsockopt(SO_LINGER) failed");
+	if (setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &a, sizeof(a)) < 0)
+    	error("setsockopt(TCP_NODELAY) failed");
 
 	/** We now have the IP address and port to connect to on the server, we have to get    **/
 	/**   that information into C's special address struct for connecting sockets                     **/
@@ -175,4 +185,8 @@ int main(int argc, char *argv[])
 	pthread_join( threadHandle2, NULL);
 
     return 0;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 95877a53e5f6c1eb23988e778084a17ae7ebca26
