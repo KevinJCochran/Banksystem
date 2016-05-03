@@ -129,7 +129,6 @@ int start_session(int sockfd, char * acctName, account * bankAccounts[])
 	pthread_mutex_unlock(&bank);
 	if( bankAccounts[i]->flag == 1)
 	{
-		write_to_client(sockfd,"Session already running, try again later");
 		return -2;
 	}
 	else

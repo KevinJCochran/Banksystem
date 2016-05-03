@@ -157,9 +157,17 @@ void* start_comm(void* ThreadArgs)
                 write_to_client(socketfd,"Invalid argument, please try again");
             }
 			// Check is account exisits
-            else if( start_session(socketfd,arg,BankAccounts) == 0 )
+            else
 			{
-				write_to_client(socketfd,"Account not found, Please try again");
+				retVal = start_session(socketfd,arg,BankAccounts);
+				if( retVal == -1 )
+				{	
+					write_to_client(socketfd,"Account not found, Please try again");
+				}
+				else if( retVal == -2 )
+				{
+					write_to_client(socketfd,"Account already in session, Try again later");
+				}
 			}
 		}
 		else if( strcmp(command,"credit") == 0 || 
