@@ -21,6 +21,7 @@ sem_t shutdownSem;						// sem to block shutdown server thread
 
 void print_server_status(int signum)
 {
+	pthread_mutex_lock(&bank);
 	// Counter to move through bank
 	int i = 0;
 	// Search bank for account
@@ -45,7 +46,7 @@ void print_server_status(int signum)
 	{
 		printf("Failed to post\n");
 	}
-
+	pthread_mutex_unlock(&bank);
 	return;
 }
 
@@ -211,7 +212,7 @@ int main(int argc, char *argv[])
 	/**     Setup Server socket     **/
 
 	// convert the text representation of the port number given by the user to an int  
-	portno = 5555;
+	portno = 5455;
 	 
 	// try to build a socket .. if it doesn't work, complain and exit
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -300,7 +301,7 @@ int main(int argc, char *argv[])
    	    //Create new thread...
         printf("\nFound new connection...\n");
         threadHandle = insert_thread(head);
-		pthread_create((pthread_t*)head, &threadAttr, start_comm, (void*)threadArgs);
+		pthread_create(threadHandle, &threadAttr, start_comm, (void*)threadArgs);
 	}
 
 	printf("Exiting main...\n");

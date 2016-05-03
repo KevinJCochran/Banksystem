@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     }
 	
 	// convert the text representation of the port number given by the user to an int
-	portno = 5555;
+	portno = 5455;
 	
 	// look up the IP address that matches up with the name given - the name given might
 	//    BE an IP address, which is fine, and store it in the 'serverIPAddress' struct
@@ -185,8 +185,4 @@ int main(int argc, char *argv[])
 	pthread_join( threadHandle2, NULL);
 
     return 0;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 95877a53e5f6c1eb23988e778084a17ae7ebca26
